@@ -1,19 +1,19 @@
 class Account:
     def __init__(self, balance: int, owner: str, agios: int): # Définition de Account
-        balance = self.balance # Solde
-        owner = self.owner # Propriétaire
+        self.balance = balance # Solde
+        self.owner = owner # Propriétaire
 
 
 class Current_account: # Definition du compte courant avec l'héritage de Account
-    def __init__(Account, authorized_overdraft, amount): # Initialisation des éléments liés au compte courant   
+    def __init__(Account, balance: int, owner: str, agios: int, authorized_overdraft, amount): # Initialisation des éléments liés au compte courant   
         Account.authorized_overdraft = authorized_overdraft # Découvert autorisé
         Account.amount = amount # Montant de la transaction
+        Account.balance = balance
     
-    
-    def __payment__(Account, amount): # Gère les versements sur le compte
-        balance = balance + amount
-        print ("Versement de {} effectué. \n Solde actuel: {}") .\
-            format (amount, balance)
+    def __payment__(self, amount): # Gère les versements sur le compte
+        self.balance += amount
+        print ("Versement de {}$ effectué. \n Solde actuel: {}$".\
+            format(amount, self.balance))
             
     def __withdraw__(Account, amount): # Gère les retraits sur le compte 
         balance = balance - amount
