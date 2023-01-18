@@ -1,13 +1,22 @@
 import time
 from objects import *
 
-print("Bienvenue dans la P'tit Lu's BANK!")
+balance = 0
+owner = "P'titLu"
+agios = 10
+authorized_overdraft = -200
+amount = ()
+
+account = Current_account(balance, owner, agios, authorized_overdraft, amount)
+
+print("Bienvenue dans la P'tit LuCrative (banque à but lucratif)")
 
 while True:
     choice = input("Que souhaitez-vous faire? \n 1: Un dépôt. \n 2: Un retrait. \n 3: Consulter mes comptes. \n 4: Effectuer un virement. \n 5: Quitter. \n")
 
     if choice == "1":
         amount = int(input("Quel montant voulez-vous déposer? \n"))
+        account.__payment__(amount)
         # Code pour effectuer le dépôt ici
         time.sleep(8)
         break
