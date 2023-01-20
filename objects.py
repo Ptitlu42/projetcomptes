@@ -18,7 +18,7 @@ class Current_account(Account):
         
     def withdraw(self, amount):
         try:
-            amount = int(input("Quel montant souhaitez vous déposer ? \n"))
+            amount = int(input("Quel montant souhaitez vous retirer ? \n"))
             if amount < 0:
                 raise ValueError('Entrez un nombre positif')
         except ValueError:
@@ -30,20 +30,20 @@ class Current_account(Account):
             print("Découvert autorisé dépassé. \n Solde:{}$." .\
                 format (self.balance))
             time.sleep(4)
-        
+                                               
         else:
-            self.balance = (self.balance - amount)
-            print ("Vous avez effectuer un retrait de {}$.\n Solde actuel: {}$." .\
-                format (amount, self.balance))
-            time.sleep(4)
-                                        
-        if (self.balance - amount) < 0 and (self.balance - amount) > self.authorized_overdraft:
-            value_agios = amount * (self.agios / 100)
-            self.balance = self.balance - amount - value_agios
-            print ("Vous avez effectuer un retrait de {}$. Des agios d'une valeur de {} ({}%) ont été appliqués. \n Solde actuel: {}$." .\
-              format(amount, value_agios, self.agios, self.balance))
-            time.sleep(4)
-                        
+            if (self.balance - amount) < 0 and (self.balance - amount) > self.authorized_overdraft:
+                value_agios = amount * (self.agios / 100)
+                self.balance = self.balance - amount - value_agios
+                print ("Vous avez effectuer un retrait de {}$. Des agios d'une valeur de {} ({}%) ont été appliqués. \n Solde actuel: {}$." .\
+                format(amount, value_agios, self.agios, self.balance))
+                time.sleep(4)
+            else:
+                self.balance = (self.balance - amount)
+                print ("Vous avez effectuer un retrait de {}$.\n Solde actuel: {}$." .\
+                    format (amount, self.balance))
+                time.sleep(4)
+            
     def payment(self, amount):
         try:
             amount = int(input("Quel montant souhaitez vous déposer ? \n"))
