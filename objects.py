@@ -17,7 +17,14 @@ class Current_account(Account):
         super.__init__(self, balance, owner, agios, interest, authorized_overdraft, amount, saving_balance)
         
     def withdraw(self, amount):
-        amount = int(input("Quel montant voulez-vous retirer? \n")) 
+        try:
+            amount = int(input("Quel montant souhaitez vous déposer ? \n"))
+            if amount < 0:
+                raise ValueError('Entrez un nombre positif')
+        except ValueError:
+            print('Entrez un nombre positif')
+            time.sleep(4)
+            return 
                
         if (self.balance - amount) <= self.authorized_overdraft:
             print("Découvert autorisé dépassé. \n Solde:{}$." .\
@@ -38,7 +45,14 @@ class Current_account(Account):
             time.sleep(4)
                         
     def payment(self, amount):
-        amount = int(input("Quel montant souhaitez vous déposer ? \n"))
+        try:
+            amount = int(input("Quel montant souhaitez vous déposer ? \n"))
+            if amount < 0:
+                raise ValueError('Entrez un nombre positif')
+        except ValueError:
+            print('Entrez un nombre positif')
+            time.sleep(4)
+            return
         interest_value = amount * (self.interest / 100)
         self.balance = self.balance + amount + interest_value
         print ("Vous avez effectuer un depot de {}$. \n Vos interets: {}$ ({}%). \n Solde actuel: {}$." .\
@@ -51,7 +65,14 @@ class Current_account(Account):
         time.sleep(4)  
         
     def transfer_to_saving(self, amount):
-        amount = int(input("Quel motant souhaitez vous versé sur votre compte épargne ? \n"))
+        try:
+            amount = int(input("Quel montant souhaitez vous déposer ? \n"))
+            if amount < 0:
+                raise ValueError('Entrez un nombre positif')
+        except ValueError:
+            print('Entrez un nombre positif')
+            time.sleep(4)
+            return
         if self.balance - amount < self.authorized_overdraft:
             print ("Vous ne pouvez pas effectuer ce virement, votre compte courant dépasserai la limite autorisé. \n Solde compte courant: {}$. \n Solde compte épargne: {}$." .\
                 format (self.balance, self.saving_balance))
@@ -73,7 +94,14 @@ class Saving_account(Account):
         time.sleep(4) 
         
     def transfer_to_current(self, amount):
-        amount = int(input("Quel motant souhaitez vous versé sur votre compte courant ? \n"))
+        try:
+            amount = int(input("Quel montant souhaitez vous déposer ? \n"))
+            if amount < 0:
+                raise ValueError('Entrez un nombre positif')
+        except ValueError:
+            print('Entrez un nombre positif')
+            time.sleep(4)
+            return
         if self.saving_balance - amount < 0:
             print ("Vous ne pouvez pas effectuer ce virement, votre compte épargne dépasserai la limite autorisé. \n Solde compte courant: {}$. \n Solde compte épargne: {}$." .\
                 format (self.balance, self.saving_balance))
