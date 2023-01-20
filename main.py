@@ -17,25 +17,30 @@ print("Bienvenue dans la P'tit LuCrative")
 while True:
     choice = input("Que souhaitez-vous faire? \n 1: Un retrait. \n 2: Un dépot. \n 3: Consulter mes comptes. \n 4: Effectuer un virement. \n 5: Quitter. \n")
     
-    if choice == "1": #ok
+    if choice == "1": 
         Current_account.withdraw(account, amount)
     
-    if choice == "2": #ok
+    if choice == "2": 
         Current_account.payment(account, amount)
         
-    if choice == "3": #ok
+    if choice == "3": 
         account_choice = input("Quel compte souhaitez vous consulter ? \n 1: Compte courant. \n 2: Compte épargne. \n")
-        if account_choice == "1": #ok
+        if account_choice == "1": 
             Current_account.consult_current(account)
-        if account_choice == "2": #ok
+        if account_choice == "2": 
             Saving_account.consult_saving(account)
-            
-    if choice == "4": #pasok
+        
+    if choice == "4": 
         account_choice = input("Que type de virement souhaitez-vous effectuer ? \n 1: Compte courant --> compte épargne. \n 2: Compte épargne --> compte courant. \n")
-        if account_choice =="1": #pasok
+        if account_choice =="1": 
             Current_account.transfer_to_saving(account, amount)
-        if account_choice =="2": #pasok
+        if account_choice =="2": 
             Saving_account.transfer_to_current(account, amount)
+            
+    if choice == "5":
+        print ("A bientôt chez P'tit LuCrative!")
+        time.sleep(2)
+        break
            
         
               
