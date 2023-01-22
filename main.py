@@ -19,9 +19,9 @@ account = Account(balance, owner, agios,interest, authorized_overdraft,amount, s
 #----------------------------------------------------------------------------#
     #Tkinter
 fenetre = Tk()
+fenetre_retrait = Toplevel()
 bitcoin_back = PhotoImage(file="background.png")
-
-
+bitcoin_second = PhotoImage(file="background2.png")
     #Tkinter fonctions
 def erreur_mauvaise_valeur():     
     messagebox.showinfo("ERREUR", "Veuillez entrer un nombre positif entier.")
@@ -30,9 +30,14 @@ def quit_page():
     messagebox.showinfo("Bisous","Merci d'avoir choisis la P'tit LuCrative's BANK, à bientôt!")
     fenetre.destroy()
     
+def quit_window():
+    fenetre_retrait.withdraw()
+    
+def show_retrait():
+    fenetre_retrait.deiconify()
+    
 def observer():
     tk_amount.set(tk_amount_entry.get())
-        
     #Tkinter variables
 tk_balance = IntVar(value=balance)
 tk_owner = StringVar(value=owner)
@@ -47,52 +52,79 @@ tk_amount_entry = IntVar(value=amount)
 tk_amount_entry.trace("w", observer)
 
     #Fenetre principale 
-fenetre.geometry("700x400+575+100")
+fenetre.geometry("700x420+450+100")
 fenetre.title("P'tit LuCrative's BANK")
-fenetre["bg"] = "#303030"
+fenetre["bg"] = "#00000a"
 fenetre.resizable(height=False, width=False)
 fenetre.iconbitmap("bitcoin.ico")
 mon_menu = Menu(fenetre)
 button_frame = Frame(fenetre, bg="#303030", width=100, height=100, borderwidth=4)
-
-
-
-    #Affichage fenetre principale 
 welcome = Canvas(fenetre, height=400, width=700)
 welcome.create_image(0, 0, image=bitcoin_back, anchor=NW)
-welcome.create_text( 340, 20, text = "Bienvenue à la P'tit LuCrative's BANK!", font="ArialBlack, 16", fill="#FFE436")
+welcome.create_text( 340, 30, text = "Bienvenue à la P'tit LuCrative's BANK!", font="ArialBlack, 16", fill="#FFD700")
 welcome.pack(expand=YES, fill=BOTH)
-
-
 button_frame.pack()
+    #Fenetre retrait
+fenetre_retrait.geometry("350x210+625+220")
+fenetre_retrait.title("P'tit LuCrative's BANK")
+fenetre_retrait["bg"] = "#00000a"
+fenetre_retrait.resizable(height=False, width=False)
+fenetre_retrait.iconbitmap("bitcoin.ico")
+retrait = Canvas(fenetre_retrait, height=350, width=210)
+retrait.create_image(0, 0, image=bitcoin_second, anchor=NW)
+retrait.create_text(170, 25, text="Retrait", font="ArialBlack, 16", fill="#FFD700")
+retrait.pack(expand=YES, fill=BOTH)
+fenetre_retrait.withdraw()
     #Bouton retrait 
-button_retrait = Button(text="Effectuer un retrait.", height=3, width=20, bg="#FFE436", activebackground="#F7FF3C")
+button_retrait = Button(text="Effectuer un retrait.", height=3, width=20, bg="#FFD700", activebackground="#c2c78b", command=show_retrait)
 welcome.create_window(25, 110, anchor="nw", window=button_retrait)
     #Bouton versement 
-buttun_versement = Button(text="Effectuer un versement.", height=3, width=20, bg="#FFE436")
+buttun_versement = Button(text="Effectuer un versement.", height=3, width=20, bg="#FFD700", activebackground="#c2c78b")
 welcome.create_window(25, 240, anchor="nw", window=buttun_versement)
     #Bouton consult 
-button_consult = Button(text="Consulter mes comptes.", height=3, width=20, bg="#FFE436")
+button_consult = Button(text="Consulter mes comptes.", height=3, width=20, bg="#FFD700", activebackground="#c2c78b")
 welcome.create_window(520, 110, anchor="nw", window=button_consult)
     #Bouton virement 
-button_virement = Button(text="Effectuer un virement.", height=3, width=20, bg="#FFE436")
+button_virement = Button(text="Effectuer un virement.", height=3, width=20, bg="#FFD700", activebackground="#c2c78b")
 welcome.create_window(520, 240, anchor="nw", window=button_virement)
     #Bouton quitter 
-button_quitter = Button(text="Quitter.", height=3, width=20, bg="#FFE436", command=quit_page)
+button_quitter = Button(text="Quitter.", height=3, width=20, bg="#FFD700", activebackground="#c2c78b", command=quit_page)
 welcome.create_window(275, 315, anchor="nw", window=button_quitter)
     #Affichage de owner
-welcome.create_text(350, 40, text="{}".format(owner), fill="#FFE436", font=("Arial", 12, "italic"))
+welcome.create_text(350, 50, text="{}".format(owner), fill="#FFD700", font=("Arial", 12, "italic"))
     #Affichage du solde current
 #tk_affiche_current = Label(fenetre, text="Solde compte courant: {}BTC".format(tk_balance), bg="#303030", font="Arial, 12", foreground="#F0C300")
-welcome.create_text(350, 80, text="Solde compte courant: {} BTC".format(balance), fill="#FFE436", font=("Arial", 12, "bold"))
+welcome.create_text(350, 90, text="Solde compte courant: {} BTC".format(balance), fill="#FFD700", font=("Arial", 12, "bold"))
     #Affichage du solde saving
-welcome.create_text(350, 100, text="Solde compte épargne: {} BTC".format(saving_balance), fill="#FFE436", font=("Arial", 12, "bold"))
+welcome.create_text(350, 110, text="Solde compte épargne: {} BTC".format(saving_balance), fill="#FFD700", font=("Arial", 12, "bold"))
     #Onglet fichier 
 fichier = Menu(fenetre, mon_menu, tearoff=0)
 fichier.add_command(label="Enregistrer sous..")
     #Onglet options
 options = Menu(fenetre, mon_menu, tearoff=0)
 options.add_command(label="Affichage")
+    #Widgets fenetre retrait
+        #Bouton valider
+frame_retrait2 = Frame(fenetre_retrait)
+button_retrait2 = Button(frame_retrait2, text="Valider", height=3, width=20, bg="#FFD700", activebackground="#c2c78b")
+button_retrait2.pack()
+retrait.create_window(100, 100, anchor="nw", window=frame_retrait2,tags='frame_retrait2')
+retrait.lift('frame_retrait2')
+        #Entré user
+frame_entry = Frame(fenetre_retrait)
+entry = Entry(frame_entry, width = 20)
+entry.pack()
+retrait.create_window(112, 65, anchor="nw", window=frame_entry,tags='frame_entry')
+retrait.lift('frame_entry')
+        #Bouton annuler
+frame_exit = Frame(fenetre_retrait)
+exit_button = Button(frame_exit, text="Annuler", height=1, width=6, bg="#FFD700", activebackground="#c2c78b", command=quit_window)
+exit_button.pack()
+retrait.create_window(150, 170, anchor="nw", window=frame_exit, tags='frame_exit')
+retrait.lift('frame_exit')
+
+
+
 
     #Onglets 
 mon_menu.add_cascade(label="Fichier", menu=fichier)
@@ -100,6 +132,7 @@ mon_menu.add_cascade(label="Options", menu=options)
 fenetre.config(menu=mon_menu)
 
 fenetre.mainloop()
+
 
 #----------------------------------------------------------------------------#
 
