@@ -17,11 +17,17 @@ saving_interest = 1
 account = Account(balance, owner, agios,interest, authorized_overdraft,amount, saving_balance, saving_interest)
 
 #----------------------------------------------------------------------------#
-    #Tkinter
+#----------------------------------------------------------------------------#
+#----------------------------------------------------------------------------#
+#----------------------------------------------------------------------------#
+                                                            #----#TKINKER----#
 fenetre = Tk()
 fenetre_retrait = Toplevel()
+fenetre_depot = Toplevel()
 bitcoin_back = PhotoImage(file="background.png")
 bitcoin_second = PhotoImage(file="background2.png")
+
+#----------------------------------------------------------------------------#
     #Tkinter fonctions
 def erreur_mauvaise_valeur():     
     messagebox.showinfo("ERREUR", "Veuillez entrer un nombre positif entier.")
@@ -30,14 +36,22 @@ def quit_page():
     messagebox.showinfo("Bisous","Merci d'avoir choisis la P'tit LuCrative's BANK, à bientôt!")
     fenetre.destroy()
     
-def quit_window():
+def quit_retrait():
     fenetre_retrait.withdraw()
     
 def show_retrait():
     fenetre_retrait.deiconify()
     
+def quit_depot():
+    fenetre_depot.withdraw()
+    
+def show_depot():
+    fenetre_depot.deiconify()
+       
 def observer():
-    tk_amount.set(tk_amount_entry.get())
+    tk_balance.set(tk_amount_entry.get())
+    
+#----------------------------------------------------------------------------#
     #Tkinter variables
 tk_balance = IntVar(value=balance)
 tk_owner = StringVar(value=owner)
@@ -51,6 +65,7 @@ tk_amount_entry = IntVar(value=amount)
     #Tkinter variables tracées
 tk_amount_entry.trace("w", observer)
 
+#----------------------------------------------------------------------------#
     #Fenetre principale 
 fenetre.geometry("700x420+450+100")
 fenetre.title("P'tit LuCrative's BANK")
@@ -64,6 +79,8 @@ welcome.create_image(0, 0, image=bitcoin_back, anchor=NW)
 welcome.create_text( 340, 30, text = "Bienvenue à la P'tit LuCrative's BANK!", font="ArialBlack, 16", fill="#FFD700")
 welcome.pack(expand=YES, fill=BOTH)
 button_frame.pack()
+
+#----------------------------#
     #Fenetre retrait
 fenetre_retrait.geometry("350x210+625+220")
 fenetre_retrait.title("P'tit LuCrative's BANK")
@@ -75,11 +92,27 @@ retrait.create_image(0, 0, image=bitcoin_second, anchor=NW)
 retrait.create_text(170, 25, text="Retrait", font="ArialBlack, 16", fill="#FFD700")
 retrait.pack(expand=YES, fill=BOTH)
 fenetre_retrait.withdraw()
+
+#----------------------------#
+
+    #Fenetre versement
+fenetre_depot.geometry("350x210+625+220")
+fenetre_depot.title("P'tit LuCrative's BANK")
+fenetre_depot["bg"] = "#00000a"
+fenetre_depot.resizable(height=False, width=False)
+fenetre_depot.iconbitmap("bitcoin.ico")
+depot = Canvas(fenetre_depot, height=350, width=210)
+depot.create_image(0, 0, image=bitcoin_second, anchor=NW)
+depot.create_text(170, 25, text="Versement", font="ArialBlack, 16", fill="#FFD700")
+depot.pack(expand=YES, fill=BOTH)
+fenetre_depot.withdraw()
+
+#----------------------------------------------------------------------------#
     #Bouton retrait 
 button_retrait = Button(text="Effectuer un retrait.", height=3, width=20, bg="#FFD700", activebackground="#c2c78b", command=show_retrait)
 welcome.create_window(25, 110, anchor="nw", window=button_retrait)
     #Bouton versement 
-buttun_versement = Button(text="Effectuer un versement.", height=3, width=20, bg="#FFD700", activebackground="#c2c78b")
+buttun_versement = Button(text="Effectuer un versement.", height=3, width=20, bg="#FFD700", activebackground="#c2c78b", command=show_depot)
 welcome.create_window(25, 240, anchor="nw", window=buttun_versement)
     #Bouton consult 
 button_consult = Button(text="Consulter mes comptes.", height=3, width=20, bg="#FFD700", activebackground="#c2c78b")
@@ -97,12 +130,17 @@ welcome.create_text(350, 50, text="{}".format(owner), fill="#FFD700", font=("Ari
 welcome.create_text(350, 90, text="Solde compte courant: {} BTC".format(balance), fill="#FFD700", font=("Arial", 12, "bold"))
     #Affichage du solde saving
 welcome.create_text(350, 110, text="Solde compte épargne: {} BTC".format(saving_balance), fill="#FFD700", font=("Arial", 12, "bold"))
+
+#----------------------------------------------------------------------------#
     #Onglet fichier 
 fichier = Menu(fenetre, mon_menu, tearoff=0)
 fichier.add_command(label="Enregistrer sous..")
     #Onglet options
 options = Menu(fenetre, mon_menu, tearoff=0)
 options.add_command(label="Affichage")
+
+#----------------------------------------------------------------------------#
+
     #Widgets fenetre retrait
         #Bouton valider
 frame_retrait2 = Frame(fenetre_retrait)
@@ -118,20 +156,47 @@ retrait.create_window(112, 65, anchor="nw", window=frame_entry,tags='frame_entry
 retrait.lift('frame_entry')
         #Bouton annuler
 frame_exit = Frame(fenetre_retrait)
-exit_button = Button(frame_exit, text="Annuler", height=1, width=6, bg="#FFD700", activebackground="#c2c78b", command=quit_window)
+exit_button = Button(frame_exit, text="Annuler", height=1, width=6, bg="#FFD700", activebackground="#c2c78b", command=quit_retrait)
 exit_button.pack()
 retrait.create_window(150, 170, anchor="nw", window=frame_exit, tags='frame_exit')
 retrait.lift('frame_exit')
 
+#----------------------------#
 
+#Widgets fenetre versement
+        #Bouton valider
+frame_depot2 = Frame(fenetre_depot)
+button_depot2 = Button(frame_depot2, text="Valider", height=3, width=20, bg="#FFD700", activebackground="#c2c78b")
+button_depot2.pack()
+depot.create_window(100, 100, anchor="nw", window=frame_depot2,tags='frame_depot2')
+depot.lift('frame_depot2')
+        #Entré user
+frame_entry2 = Frame(fenetre_depot)
+entry2 = Entry(frame_entry2, width = 20)
+entry2.pack()
+depot.create_window(112, 65, anchor="nw", window=frame_entry2,tags='frame_entry2')
+depot.lift('frame_entry2')
+        #Bouton annuler
+frame_exit2 = Frame(fenetre_depot)
+exit_button2 = Button(frame_exit2, text="Annuler", height=1, width=6, bg="#FFD700", activebackground="#c2c78b", command=quit_depot)
+exit_button2.pack()
+depot.create_window(150, 170, anchor="nw", window=frame_exit2, tags='frame_exit2')
+depot.lift('frame_exit2')
 
+#----------------------------#
+#Widgets fenetre choice_virement
+
+#----------------------------------------------------------------------------#
 
     #Onglets 
 mon_menu.add_cascade(label="Fichier", menu=fichier)
 mon_menu.add_cascade(label="Options", menu=options)
 fenetre.config(menu=mon_menu)
 
+#----------------------------------------------------------------------------#
+
 fenetre.mainloop()
+
 
 
 #----------------------------------------------------------------------------#
