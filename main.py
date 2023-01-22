@@ -81,18 +81,12 @@ welcome.create_window(520, 240, anchor="nw", window=button_virement)
 button_quitter = Button(text="Quitter.", height=3, width=20, bg="#FFE436", command=quit_page)
 welcome.create_window(275, 315, anchor="nw", window=button_quitter)
     #Affichage de owner
-tk_affiche_owner = Label(fenetre, textvariable=tk_owner, bg="#303030", font="Arial, 12", foreground="#F0C300")
-tk_affiche_owner.pack()
+welcome.create_text(350, 40, text="{}".format(owner), fill="#FFE436", font=("Arial", 12, "italic"))
     #Affichage du solde current
-tk_affiche_current = Label(fenetre, text="Solde compte courant:", bg="#303030", font="Arial, 12", foreground="#F0C300")
-tk_affiche_current.pack()
-tk_current = Label(fenetre, textvariable=tk_balance, bg="#303030", font="Arial, 12", foreground="#F0C300")
-tk_current.pack()
+#tk_affiche_current = Label(fenetre, text="Solde compte courant: {}BTC".format(tk_balance), bg="#303030", font="Arial, 12", foreground="#F0C300")
+welcome.create_text(350, 80, text="Solde compte courant: {} BTC".format(balance), fill="#FFE436", font=("Arial", 12, "bold"))
     #Affichage du solde saving
-tk_affiche_saving = Label(fenetre, text="Solde compte épargne:", bg="#303030", font="Arial, 12", foreground="#F0C300")
-tk_affiche_saving.pack()
-tk_saving = Label(fenetre, textvariable=tk_saving_balance, bg="#303030", font="Arial, 12", foreground="#F0C300")
-tk_saving.pack()    
+welcome.create_text(350, 100, text="Solde compte épargne: {} BTC".format(saving_balance), fill="#FFE436", font=("Arial", 12, "bold"))
     #Onglet fichier 
 fichier = Menu(fenetre, mon_menu, tearoff=0)
 fichier.add_command(label="Enregistrer sous..")
