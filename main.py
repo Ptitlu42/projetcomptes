@@ -20,10 +20,11 @@ account = Account(balance, owner, agios,interest, authorized_overdraft,amount, s
 #----------------------------------------------------------------------------#
 #----------------------------------------------------------------------------#
 #----------------------------------------------------------------------------#
-                                                            #----#TKINKER----#
+                                                            #----#TKINTER----#
 fenetre = Tk()
 fenetre_retrait = Toplevel()
 fenetre_depot = Toplevel()
+fenetre_consult = Toplevel()
 bitcoin_back = PhotoImage(file="background.png")
 bitcoin_second = PhotoImage(file="background2.png")
 
@@ -33,8 +34,14 @@ def erreur_mauvaise_valeur():
     messagebox.showinfo("ERREUR", "Veuillez entrer un nombre positif entier.")
             
 def quit_page():
-    messagebox.showinfo("Bisous","Merci d'avoir choisis la P'tit LuCrative's BANK, à bientôt!")
+    messagebox.showinfo("Bisous","Bisous bisous")
     fenetre.destroy()
+    
+def quit_consult():
+    fenetre_consult.withdraw()
+    
+def show_consult():
+    fenetre_consult.deiconify()
     
 def quit_retrait():
     fenetre_retrait.withdraw()
@@ -83,7 +90,7 @@ button_frame.pack()
 #----------------------------#
     #Fenetre retrait
 fenetre_retrait.geometry("350x210+625+220")
-fenetre_retrait.title("P'tit LuCrative's BANK")
+fenetre_retrait.title("RETRAIT")
 fenetre_retrait["bg"] = "#00000a"
 fenetre_retrait.resizable(height=False, width=False)
 fenetre_retrait.iconbitmap("bitcoin.ico")
@@ -97,7 +104,7 @@ fenetre_retrait.withdraw()
 
     #Fenetre versement
 fenetre_depot.geometry("350x210+625+220")
-fenetre_depot.title("P'tit LuCrative's BANK")
+fenetre_depot.title("VERSEMENT")
 fenetre_depot["bg"] = "#00000a"
 fenetre_depot.resizable(height=False, width=False)
 fenetre_depot.iconbitmap("bitcoin.ico")
@@ -107,18 +114,33 @@ depot.create_text(170, 25, text="Versement", font="ArialBlack, 16", fill="#FFD70
 depot.pack(expand=YES, fill=BOTH)
 fenetre_depot.withdraw()
 
+#----------------------------#
+    #Fenetre consult
+fenetre_consult.geometry("350x210+625+220")
+fenetre_consult.title("COMPTES")
+fenetre_consult["bg"] = "#00000a"
+fenetre_consult.resizable(height=False, width=False)
+fenetre_consult.iconbitmap("bitcoin.ico")
+consult = Canvas(fenetre_consult, height=350, width=210)
+consult.create_image(0, 0, image=bitcoin_second, anchor=NW)
+consult.create_text(170, 25, text="Comptes:", font="ArialBlack, 16", fill="#FFD700")
+consult.pack(expand=YES, fill=BOTH)
+fenetre_consult.withdraw()
+
+
 #----------------------------------------------------------------------------#
+#Boutons fenetre principale
     #Bouton retrait 
-button_retrait = Button(text="Effectuer un retrait.", height=3, width=20, bg="#FFD700", activebackground="#c2c78b", command=show_retrait)
+button_retrait = Button(text="Retirer des BTC", height=3, width=20, bg="#FFD700", activebackground="#c2c78b", command=show_retrait)
 welcome.create_window(25, 110, anchor="nw", window=button_retrait)
     #Bouton versement 
-buttun_versement = Button(text="Effectuer un versement.", height=3, width=20, bg="#FFD700", activebackground="#c2c78b", command=show_depot)
+buttun_versement = Button(text="Déposer des BTC", height=3, width=20, bg="#FFD700", activebackground="#c2c78b", command=show_depot)
 welcome.create_window(25, 240, anchor="nw", window=buttun_versement)
     #Bouton consult 
-button_consult = Button(text="Consulter mes comptes.", height=3, width=20, bg="#FFD700", activebackground="#c2c78b")
+button_consult = Button(text="Consulter mes comptes.", height=3, width=20, bg="#FFD700", activebackground="#c2c78b", command=show_consult)
 welcome.create_window(520, 110, anchor="nw", window=button_consult)
     #Bouton virement 
-button_virement = Button(text="Effectuer un virement.", height=3, width=20, bg="#FFD700", activebackground="#c2c78b")
+button_virement = Button(text="Transferer des BTC", height=3, width=20, bg="#FFD700", activebackground="#c2c78b")
 welcome.create_window(520, 240, anchor="nw", window=button_virement)
     #Bouton quitter 
 button_quitter = Button(text="Quitter.", height=3, width=20, bg="#FFD700", activebackground="#c2c78b", command=quit_page)
@@ -126,7 +148,6 @@ welcome.create_window(275, 315, anchor="nw", window=button_quitter)
     #Affichage de owner
 welcome.create_text(350, 50, text="{}".format(owner), fill="#FFD700", font=("Arial", 12, "italic"))
     #Affichage du solde current
-#tk_affiche_current = Label(fenetre, text="Solde compte courant: {}BTC".format(tk_balance), bg="#303030", font="Arial, 12", foreground="#F0C300")
 welcome.create_text(350, 90, text="Solde compte courant: {} BTC".format(balance), fill="#FFD700", font=("Arial", 12, "bold"))
     #Affichage du solde saving
 welcome.create_text(350, 110, text="Solde compte épargne: {} BTC".format(saving_balance), fill="#FFD700", font=("Arial", 12, "bold"))
@@ -183,6 +204,18 @@ exit_button2.pack()
 depot.create_window(150, 170, anchor="nw", window=frame_exit2, tags='frame_exit2')
 depot.lift('frame_exit2')
 
+#----------------------------#
+#Widgets fenetre consult
+frame_consult2 = Frame(fenetre_consult)
+    #Affichage commun
+consult.create_text(70, 55, text="Compte commun:", font=("ArialBlack", 10, "bold"), fill="#FFD700")
+    #Affichage retour button 
+frame_exit = Frame(fenetre_consult)
+exit_button = Button(frame_exit, text="Retour", height=1, width=6, bg="#FFD700", activebackground="#c2c78b", command=quit_consult)
+exit_button.pack()
+consult.create_window(150, 170, anchor="nw", window=frame_exit, tags='frame_exit')
+consult.lift('frame_exit')
+    
 #----------------------------#
 #Widgets fenetre choice_virement
 
