@@ -58,24 +58,28 @@ button_frame = Frame(fenetre, bg="#303030", width=100, height=100, borderwidth=4
 
 
     #Affichage fenetre principale 
-welcome = Label(fenetre, text="Bienvenue à la P'tit LuCrative's BANK!", bg="#303030", font="Arial, 19", image=bitcoin_back)
-welcome.pack()
+welcome = Canvas(fenetre, height=400, width=700)
+welcome.create_image(0, 0, image=bitcoin_back, anchor=NW)
+welcome.create_text( 340, 20, text = "Bienvenue à la P'tit LuCrative's BANK!", font="ArialBlack, 16", fill="#FFE436")
+welcome.pack(expand=YES, fill=BOTH)
+
+
 button_frame.pack()
     #Bouton retrait 
-button_retrait = Button(button_frame,text="Effectuer un retrait.", height=5, width=40, bg="#FFE436", activebackground="#F7FF3C", anchor="nw")
-button_retrait.pack()
+button_retrait = Button(text="Effectuer un retrait.", height=3, width=20, bg="#FFE436", activebackground="#F7FF3C")
+welcome.create_window(25, 110, anchor="nw", window=button_retrait)
     #Bouton versement 
-buttun_versement = Button(button_frame, text="Effectuer un versement.", height=5, width=40, bg="#FFE436")
-buttun_versement.pack()
+buttun_versement = Button(text="Effectuer un versement.", height=3, width=20, bg="#FFE436")
+welcome.create_window(25, 240, anchor="nw", window=buttun_versement)
     #Bouton consult 
-button_consult = Button(button_frame,text="Consulter mes comptes.", height=5, width=40, bg="#FFE436")
-button_consult.pack()
+button_consult = Button(text="Consulter mes comptes.", height=3, width=20, bg="#FFE436")
+welcome.create_window(520, 110, anchor="nw", window=button_consult)
     #Bouton virement 
-button_virement = Button(button_frame,text="Effectuer un virement.", height=5, width=40, bg="#FFE436")
-button_virement.pack()
+button_virement = Button(text="Effectuer un virement.", height=3, width=20, bg="#FFE436")
+welcome.create_window(520, 240, anchor="nw", window=button_virement)
     #Bouton quitter 
-button_quitter = Button(button_frame,text="Quitter.", height=5, width=40, bg="#FFE436", command=quit_page)
-button_quitter.pack()
+button_quitter = Button(text="Quitter.", height=3, width=20, bg="#FFE436", command=quit_page)
+welcome.create_window(275, 315, anchor="nw", window=button_quitter)
     #Affichage de owner
 tk_affiche_owner = Label(fenetre, textvariable=tk_owner, bg="#303030", font="Arial, 12", foreground="#F0C300")
 tk_affiche_owner.pack()
@@ -105,7 +109,7 @@ fenetre.mainloop()
 
 #----------------------------------------------------------------------------#
 
-print("Bienvenue dans la P'tit LuCrative")
+#print("Bienvenue dans la P'tit LuCrative")
 
 # while True:
 #     choice = input("Que souhaitez-vous faire? \n 1: Un retrait. \n 2: Un dépot. \n 3: Consulter mes comptes. \n 4: Effectuer un virement. \n 5: Quitter. \n")
