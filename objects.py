@@ -1,9 +1,9 @@
 import time
 import os
 
-from objects import *
-from tkinter import *
-from tkinter import messagebox
+# from objects import *
+# from tkinter import *
+# from tkinter import messagebox
 
 class Account:
     def __init__(self, balance: int ,owner: str ,agios: int ,interest: int, authorized_overdraft: int, amount: int, saving_balance: int, saving_interest: int):
@@ -70,7 +70,7 @@ class Current_account(Account):
         
     def transfer_to_saving(self, amount):
         try:
-            amount = int(input("Quel montant souhaitez vous déposer ? \n"))
+            amount = int(input("Quel montant souhaitez vous transférer ? \n"))
             if amount < 0:
                 raise ValueError('Entrez un nombre positif')
         except ValueError:
@@ -99,7 +99,7 @@ class Saving_account(Account):
         
     def transfer_to_current(self, amount):
         try:
-            amount = int(input("Quel montant souhaitez vous déposer ? \n"))
+            amount = int(input("Quel montant souhaitez vous transférer ? \n"))
             if amount < 0:
                 raise ValueError('Entrez un nombre positif')
         except ValueError:
