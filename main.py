@@ -1,9 +1,11 @@
 import time
+import functools
 from objects import *
 from tkinter import messagebox
 from tkinter import IntVar
 from tkinter import StringVar
 from tkinter import *
+
 
 balance = 1000
 owner = "Erwann DuCloture-TonCompte"
@@ -20,13 +22,17 @@ account = Account(balance, owner, agios,interest, authorized_overdraft,amount, s
 #----------------------------------------------------------------------------#
 #----------------------------------------------------------------------------#
 #----------------------------------------------------------------------------#
-                                                            #----#TKINTER----#
+def debug(event):
+    print("click")
+    #----#TKINTER----#
 fenetre = Tk()
 fenetre_retrait = Toplevel()
 fenetre_depot = Toplevel()
 fenetre_consult = Toplevel()
+fenetre_virement = Toplevel()
 bitcoin_back = PhotoImage(file="background.png")
 bitcoin_second = PhotoImage(file="background2.png")
+fenetre.bind_class("<Button-1>",debug)
 
 #----------------------------------------------------------------------------#
     #Tkinter fonctions
@@ -36,6 +42,12 @@ def erreur_mauvaise_valeur():
 def quit_page():
     messagebox.showinfo("Bisous","Bisous bisous")
     fenetre.destroy()
+    
+def show_virement():
+    fenetre_virement.deiconify()
+    
+def quit_virement():
+    fenetre_virement.withdraw()
     
 def quit_consult():
     fenetre_consult.withdraw()
@@ -57,6 +69,18 @@ def show_depot():
        
 def observer():
     tk_balance.set(tk_amount_entry.get())
+    
+def update_balance(new_balance):
+    welcome.itemconfig(text_id, text="Solde compte courant: {} BTC".format(new_balance))
+    
+def refresh():
+    pass
+    
+     
+    
+     
+     
+     
     
 #----------------------------------------------------------------------------#
     #Tkinter variables
@@ -102,15 +126,15 @@ fenetre_retrait.withdraw()
 
 #----------------------------#
 
-    #Fenetre versement
+    #Fenetre virement
 fenetre_depot.geometry("350x210+625+220")
-fenetre_depot.title("VERSEMENT")
+fenetre_depot.title("VIREMENT")
 fenetre_depot["bg"] = "#00000a"
 fenetre_depot.resizable(height=False, width=False)
 fenetre_depot.iconbitmap("bitcoin.ico")
 depot = Canvas(fenetre_depot, height=350, width=210)
 depot.create_image(0, 0, image=bitcoin_second, anchor=NW)
-depot.create_text(170, 25, text="Versement", font="ArialBlack, 16", fill="#FFD700")
+depot.create_text(170, 25, text="Virement", font="ArialBlack, 16", fill="#FFD700")
 depot.pack(expand=YES, fill=BOTH)
 fenetre_depot.withdraw()
 
@@ -127,9 +151,25 @@ consult.create_text(170, 25, text="Comptes:", font="ArialBlack, 16", fill="#FFD7
 consult.pack(expand=YES, fill=BOTH)
 fenetre_consult.withdraw()
 
+#----------------------------#
+    #Fenetre Virement
+fenetre_virement.geometry("700x420+450+100")
+fenetre_consult.title("Virement")
+fenetre_consult["bg"] = "#00000a"
+fenetre_consult.resizable(height=False, width=False)
+fenetre.iconbitmap("bitcoin.ico")
+virement = Canvas(fenetre_consult, height=700, width=420)
+virement.create_image(0, 0, image=bitcoin_back, anchor=NW)
+virement.create_text(170, 25, text="Virement:", font="ArialBlack, 16", fill="#FFD700")
+virement.pack(expand=YES, fill=BOTH)
+fenetre_virement.withdraw()
+
 
 #----------------------------------------------------------------------------#
 #Boutons fenetre principale
+    #Bouton raffraichir
+button_refresh = Button(text="Rafraichir", height=1, width=8, bg="#FFD700", activebackground="#c2c78b", command=refresh)
+welcome.create_window(316, 280, anchor="nw", window=button_refresh)
     #Bouton retrait 
 button_retrait = Button(text="Retirer des BTC", height=3, width=20, bg="#FFD700", activebackground="#c2c78b", command=show_retrait)
 welcome.create_window(25, 110, anchor="nw", window=button_retrait)
@@ -140,7 +180,7 @@ welcome.create_window(25, 240, anchor="nw", window=buttun_versement)
 button_consult = Button(text="Consulter mes comptes.", height=3, width=20, bg="#FFD700", activebackground="#c2c78b", command=show_consult)
 welcome.create_window(520, 110, anchor="nw", window=button_consult)
     #Bouton virement 
-button_virement = Button(text="Transferer des BTC", height=3, width=20, bg="#FFD700", activebackground="#c2c78b")
+button_virement = Button(text="Transferer des BTC", height=3, width=20, bg="#FFD700", activebackground="#c2c78b", command=show_virement)
 welcome.create_window(520, 240, anchor="nw", window=button_virement)
     #Bouton quitter 
 button_quitter = Button(text="Quitter.", height=3, width=20, bg="#FFD700", activebackground="#c2c78b", command=quit_page)
@@ -148,7 +188,7 @@ welcome.create_window(275, 315, anchor="nw", window=button_quitter)
     #Affichage de owner
 welcome.create_text(350, 50, text="{}".format(owner), fill="#FFD700", font=("Arial", 12, "italic"))
     #Affichage du solde current
-welcome.create_text(350, 90, text="Solde compte courant: {} BTC".format(balance), fill="#FFD700", font=("Arial", 12, "bold"))
+text_id = welcome.create_text(350, 90, text="Solde compte courant: {} BTC".format(balance), fill="#FFD700", font=("Arial", 12, "bold"))
     #Affichage du solde saving
 welcome.create_text(350, 110, text="Solde compte épargne: {} BTC".format(saving_balance), fill="#FFD700", font=("Arial", 12, "bold"))
 
@@ -163,18 +203,24 @@ options.add_command(label="Affichage")
 #----------------------------------------------------------------------------#
 
     #Widgets fenetre retrait
-        #Bouton valider
-frame_retrait2 = Frame(fenetre_retrait)
-button_retrait2 = Button(frame_retrait2, text="Valider", height=3, width=20, bg="#FFD700", activebackground="#c2c78b")
-button_retrait2.pack()
-retrait.create_window(100, 100, anchor="nw", window=frame_retrait2,tags='frame_retrait2')
-retrait.lift('frame_retrait2')
+    
+def entry_value():
+        value = entry.get()
+        value=int(value)
+        Current_account.withdraw(account, value)
         #Entré user
 frame_entry = Frame(fenetre_retrait)
 entry = Entry(frame_entry, width = 20)
 entry.pack()
 retrait.create_window(112, 65, anchor="nw", window=frame_entry,tags='frame_entry')
 retrait.lift('frame_entry')
+        #Bouton valider
+frame_retrait2 = Frame(fenetre_retrait)
+button_retrait2 = Button(frame_retrait2, text="Valider", height=3, width=20, bg="#FFD700", activebackground="#c2c78b",command= entry_value)
+button_retrait2.pack()
+retrait.create_window(100, 100, anchor="nw", window=frame_retrait2,tags='frame_retrait2')
+retrait.lift('frame_retrait2')
+ 
         #Bouton annuler
 frame_exit = Frame(fenetre_retrait)
 exit_button = Button(frame_exit, text="Annuler", height=1, width=6, bg="#FFD700", activebackground="#c2c78b", command=quit_retrait)
@@ -214,14 +260,10 @@ consult.create_text(80,100, text="Solde: {} BTC".format(balance), font=("ArialBl
 consult.create_text(80,115, text="Agios: {}%".format(agios), font=("ArialBlack", 10), fill="#FFD700")
 consult.create_text(80,130, text="Intérets: {}%".format(interest), font=("ArialBlack", 10), fill="#FFD700")
 consult.create_text(80, 145, text="Découvert: {} BTC".format(authorized_overdraft), font=("ArialBlack", 10), fill="#FFD700")
-#----------------------------#
     #Affichage épargne
 consult.create_text(270, 80, text="--Compte épargne--", font =("ArialBlack", 10, "bold"), fill="#FFD700")
 consult.create_text(270,100, text="Solde: {} BTC".format(saving_balance), font=("ArialBlack", 10), fill="#FFD700")
 consult.create_text(270,115, text="Intérets: {}%".format(saving_interest), font=("ArialBlack", 10), fill="#FFD700")
-
-
-
     #Affichage retour button 
 frame_exit = Frame(fenetre_consult)
 exit_button = Button(frame_exit, text="Retour", height=1, width=6, bg="#FFD700", activebackground="#c2c78b", command=quit_consult)
@@ -230,7 +272,34 @@ consult.create_window(150, 170, anchor="nw", window=frame_exit, tags='frame_exit
 consult.lift('frame_exit')
     
 #----------------------------#
-#Widgets fenetre choice_virement
+# #Widgets fenetre virement
+#     #Boutons valider
+# frame_virement2 = Frame(fenetre_virement)
+# button_virement2 = Button(frame_retrait2, text="Valider", height=1, width=10, font="#FFD700", activebackground="#c2c78b")
+# button_virement3= Button(frame_retrait2, text="Valider", height=1, width=10, font="#FFD700", activebackground="#c2c78b")
+# button_virement2.pack
+# button_virement3.pack
+#     #Entrées user
+# frame_entry2= Frame(fenetre_virement)
+# entry2 = Entry(frame_entry2, width=20)
+# entry3 = Entry(frame_entry2, width=20)
+# entry2.pack()
+# entry3.pack()
+# virement.create_window(112, 65, anchor="nw", window=frame_entry2, tags='frame_entry2')
+# virement.lift('frame_entry')
+#     #Bouton annuler
+# frame_exit3 = Frame(fenetre_virement)
+# exit_button3 = Button(frame_exit3, text="Annuler", height=1, width=6, bg="#FFD700", activebackground="#c2c78b", command=quit_virement)
+# exit_button3.pack()
+# virement.create_window(150, 170, anchor="nw", window=frame_exit3, tags='frame_exit3')
+# virement.lift('frame_exit3')
+
+
+
+
+
+
+
 
 #----------------------------------------------------------------------------#
 
