@@ -12,7 +12,7 @@ authorized_overdraft = -200
 amount = ()
 interest = 1
 saving_balance = 4000
-saving_interest = 1
+saving_interest = 2
 
 account = Account(balance, owner, agios,interest, authorized_overdraft,amount, saving_balance, saving_interest)
 
@@ -207,8 +207,21 @@ depot.lift('frame_exit2')
 #----------------------------#
 #Widgets fenetre consult
 frame_consult2 = Frame(fenetre_consult)
-    #Affichage commun
-consult.create_text(70, 55, text="Compte commun:", font=("ArialBlack", 10, "bold"), fill="#FFD700")
+consult.create_text(170, 50, text="{}".format(owner), font=("ArialBlack", 10), fill="#FFD700")
+    #Affichage courant
+consult.create_text(80, 80, text="--Compte courant--", font =("ArialBlack", 10, "bold"), fill="#FFD700")
+consult.create_text(80,100, text="Solde: {} BTC".format(balance), font=("ArialBlack", 10), fill="#FFD700")
+consult.create_text(80,115, text="Agios: {}%".format(agios), font=("ArialBlack", 10), fill="#FFD700")
+consult.create_text(80,130, text="Intérets: {}%".format(interest), font=("ArialBlack", 10), fill="#FFD700")
+consult.create_text(80, 145, text="Découvert: {} BTC".format(authorized_overdraft), font=("ArialBlack", 10), fill="#FFD700")
+#----------------------------#
+    #Affichage épargne
+consult.create_text(270, 80, text="--Compte épargne--", font =("ArialBlack", 10, "bold"), fill="#FFD700")
+consult.create_text(270,100, text="Solde: {} BTC".format(saving_balance), font=("ArialBlack", 10), fill="#FFD700")
+consult.create_text(270,115, text="Intérets: {}%".format(saving_interest), font=("ArialBlack", 10), fill="#FFD700")
+
+
+
     #Affichage retour button 
 frame_exit = Frame(fenetre_consult)
 exit_button = Button(frame_exit, text="Retour", height=1, width=6, bg="#FFD700", activebackground="#c2c78b", command=quit_consult)
